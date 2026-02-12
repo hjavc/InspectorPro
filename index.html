@@ -27,6 +27,8 @@
       --green-soft: rgba(52, 211, 153, 0.10);
       --green-border: rgba(52, 211, 153, 0.18);
       --amber: #fbbf24;
+      --amber-soft: rgba(251, 191, 36, 0.10);
+      --amber-border: rgba(251, 191, 36, 0.25);
       --radius-sm: 8px;
       --radius-md: 12px;
       --radius-lg: 16px;
@@ -262,9 +264,15 @@
       border-radius: var(--radius-md);
       padding: 1rem 1.15rem;
       animation: slideIn 0.25s ease forwards;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
     }
 
     .config-item + .config-item { margin-top: 0.625rem; }
+
+    .config-item--incomplete {
+      border-color: var(--amber-border);
+      box-shadow: 0 0 0 1px var(--amber-border);
+    }
 
     @keyframes slideIn {
       from { opacity: 0; transform: translateY(-6px); }
@@ -420,6 +428,57 @@
 
     .condition-btn.active .condition-btn__adj { color: var(--accent-soft); }
 
+    /* Condition info toggle */
+    .condition-info-btn {
+      width: 22px; height: 22px;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      color: var(--text-muted);
+      font-size: 0.7rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-grid;
+      place-items: center;
+      margin-left: auto;
+      transition: all var(--transition);
+      -webkit-tap-highlight-color: transparent;
+      font-family: inherit;
+      line-height: 1;
+    }
+
+    .condition-info-btn:hover { border-color: var(--accent); color: var(--accent-soft); }
+
+    .condition-info {
+      margin-top: 0.75rem;
+      padding: 0.65rem 0.85rem;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 0.72rem;
+      color: var(--text-secondary);
+      line-height: 1.55;
+    }
+
+    .condition-info dt {
+      font-weight: 600;
+      color: var(--text-primary);
+      display: inline;
+    }
+
+    .condition-info dd {
+      display: inline;
+      margin: 0;
+    }
+
+    .condition-info dd::after {
+      content: '';
+      display: block;
+      margin-bottom: 0.2rem;
+    }
+
+    .condition-info dd:last-child::after { margin-bottom: 0; }
+
     /* ===== Context hint under configs ===== */
     .context-hint {
       display: flex;
@@ -514,6 +573,45 @@
       line-height: 1.5;
     }
 
+    /* Panel top row (heading + reset) */
+    .panel-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.25rem;
+    }
+
+    .panel-top .card__heading { margin-bottom: 0; }
+
+    .reset-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.35rem 0.65rem;
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 0.68rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all var(--transition);
+      min-height: 32px;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .reset-btn:hover { border-color: var(--border-light); color: var(--text-secondary); }
+
+    .reset-btn svg {
+      width: 12px; height: 12px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
     /* ===== View Toggle ===== */
     .view-toggle {
       display: flex;
@@ -538,6 +636,10 @@
       transition: all var(--transition);
       min-height: 40px;
       -webkit-tap-highlight-color: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.3rem;
     }
 
     .view-toggle__btn:hover { color: var(--text-secondary); }
@@ -545,6 +647,16 @@
     .view-toggle__btn.active {
       background: var(--accent-glow-md);
       color: var(--accent-soft);
+    }
+
+    .view-toggle__btn svg {
+      width: 13px; height: 13px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
     }
 
     /* Breakdown */
@@ -618,6 +730,18 @@
       flex-shrink: 0;
     }
 
+    /* Incomplete notice */
+    .incomplete-notice {
+      padding: 0.6rem 0.75rem;
+      background: var(--amber-soft);
+      border: 1px solid var(--amber-border);
+      border-radius: var(--radius-sm);
+      margin-bottom: 1rem;
+      font-size: 0.73rem;
+      color: var(--amber);
+      line-height: 1.4;
+    }
+
     /* Divider */
     .divider {
       height: 1px;
@@ -661,8 +785,16 @@
       text-align: right;
       font-size: 0.7rem;
       color: var(--text-muted);
-      margin-bottom: 1.25rem;
       min-height: 1em;
+    }
+
+    .total-disclaimer {
+      text-align: right;
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      opacity: 0.7;
+      margin-bottom: 1.25rem;
+      line-height: 1.4;
     }
 
     /* ===== Details Expander (Customer View) ===== */
@@ -708,52 +840,13 @@
       max-height: 500px;
     }
 
-    /* ===== Copy Button ===== */
-    .copy-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.35rem;
-      width: 100%;
-      padding: 0.6rem;
-      background: var(--bg-input);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      font-family: inherit;
-      font-size: 0.75rem;
-      font-weight: 500;
-      color: var(--text-secondary);
-      cursor: pointer;
-      transition: all var(--transition);
-      margin-top: 0.75rem;
-      min-height: 42px;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    .copy-btn:hover { border-color: var(--border-light); background: var(--bg-hover); color: var(--text-primary); }
-
-    .copy-btn.copied {
-      border-color: var(--green-border);
-      color: var(--green);
-      background: var(--green-soft);
-    }
-
-    .copy-btn svg {
-      width: 13px; height: 13px;
-      stroke: currentColor;
-      fill: none;
-      stroke-width: 2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-
-    /* CTA */
+    /* CTA / Copy */
     .cta {
       width: 100%;
       padding: 0.9rem 1rem;
       background: var(--accent);
       color: white;
-      font-size: 0.92rem;
+      font-size: 0.88rem;
       font-weight: 600;
       font-family: inherit;
       border: none;
@@ -762,6 +855,10 @@
       transition: all var(--transition);
       min-height: 52px;
       -webkit-tap-highlight-color: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
     }
 
     .cta:hover {
@@ -781,12 +878,14 @@
 
     .cta:disabled:hover { background: var(--accent); }
 
-    .cta__sub {
-      display: block;
-      font-size: 0.65rem;
-      font-weight: 400;
-      opacity: 0.75;
-      margin-top: 0.15rem;
+    .cta svg {
+      width: 16px; height: 16px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
     }
 
     /* Trust */
@@ -869,40 +968,166 @@
       box-shadow: var(--shadow-md);
     }
 
-    .modal-icon {
-      width: 44px; height: 44px;
-      background: var(--green-soft);
-      border-radius: 50%;
-      display: grid; place-items: center;
-      margin: 0 auto 1rem;
+    .modal-title { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.75rem; }
+    .modal-desc { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem; }
+
+    .modal-actions {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
     }
 
-    .modal-icon svg {
-      width: 22px; height: 22px;
-      stroke: var(--green); fill: none;
-      stroke-width: 2;
-    }
-
-    .modal-title { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.4rem; }
-    .modal-desc { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.5rem; }
-    .modal-sub { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1.25rem; }
-
-    .modal-close {
-      padding: 0.55rem 1.75rem;
-      background: var(--accent);
-      color: white;
-      border: none;
-      border-radius: var(--radius-md);
-      font-size: 0.88rem;
+    .modal-actions button {
+      flex: 1;
+      max-width: 160px;
+      padding: 0.6rem 1rem;
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 0.85rem;
       font-weight: 600;
       cursor: pointer;
-      font-family: inherit;
-      transition: background var(--transition);
       min-height: 44px;
+      -webkit-tap-highlight-color: transparent;
+      transition: all var(--transition);
+    }
+
+    .modal-cancel {
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+    }
+
+    .modal-cancel:hover { border-color: var(--border-light); color: var(--text-primary); }
+
+    .modal-confirm {
+      background: var(--accent);
+      border: none;
+      color: white;
+    }
+
+    .modal-confirm:hover { background: var(--accent-soft); }
+
+    .modal-confirm--danger {
+      background: #ef4444;
+    }
+
+    .modal-confirm--danger:hover { background: #f87171; }
+
+    /* PIN input */
+    .pin-input {
+      width: 140px;
+      padding: 0.7rem 1rem;
+      background: var(--bg-input);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 1.2rem;
+      font-weight: 700;
+      text-align: center;
+      letter-spacing: 0.3em;
+      margin: 0 auto 0.5rem;
+      display: block;
+      -webkit-tap-highlight-color: transparent;
+      transition: border-color var(--transition);
+    }
+
+    .pin-input:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .pin-input.error {
+      border-color: #ef4444;
+      animation: shake 0.3s ease;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-6px); }
+      75% { transform: translateX(6px); }
+    }
+
+    .pin-error {
+      font-size: 0.75rem;
+      color: #ef4444;
+      margin-bottom: 0.75rem;
+      min-height: 1.2em;
+    }
+
+    /* Lock btn in operator view */
+    .lock-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.3rem;
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.75rem;
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all var(--transition);
+      min-height: 38px;
       -webkit-tap-highlight-color: transparent;
     }
 
-    .modal-close:hover { background: var(--accent-soft); }
+    .lock-btn:hover { border-color: var(--border-light); color: var(--text-secondary); }
+
+    .lock-btn svg {
+      width: 12px; height: 12px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* Clipboard fallback */
+    .clipboard-textarea {
+      width: 100%;
+      min-height: 180px;
+      padding: 0.75rem;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-primary);
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 0.72rem;
+      line-height: 1.5;
+      resize: none;
+      margin-bottom: 1rem;
+    }
+
+    .clipboard-textarea:focus { outline: none; border-color: var(--accent); }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      padding: 0.65rem 1.5rem;
+      background: var(--green);
+      color: #08080d;
+      font-size: 0.82rem;
+      font-weight: 600;
+      border-radius: 999px;
+      z-index: 200;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
   </style>
 </head>
 <body>
@@ -949,6 +1174,14 @@
             <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
           </div>
           Surface Condition
+          <button class="condition-info-btn" onclick="toggleConditionInfo()" title="What do these mean?">?</button>
+        </div>
+        <div id="conditionInfo" style="display:none;" class="condition-info">
+          <dl>
+            <dt>Normal:</dt> <dd>Standard cleaning, no special treatment needed.</dd>
+            <dt>Heavy Mildew:</dt> <dd>More dwell time and treatment required (+12%).</dd>
+            <dt>Oxidation / Extra Prep:</dt> <dd>Additional prep work and surface risk (+20%).</dd>
+          </dl>
         </div>
         <div class="condition-row" id="conditionRow"></div>
       </div>
@@ -969,23 +1202,35 @@
     <!-- Right Column: Quote Panel -->
     <div class="quote-panel fade-up">
       <div class="card">
-        <div class="card__heading">
-          <div class="card__heading-icon">
-            <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+        <div class="panel-top">
+          <div class="card__heading">
+            <div class="card__heading-icon">
+              <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+            </div>
+            Your Estimate
           </div>
-          Your Estimate
+          <button class="reset-btn" onclick="promptReset()">
+            <svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
+            Reset
+          </button>
         </div>
 
         <!-- View Toggle -->
         <div class="view-toggle">
           <button class="view-toggle__btn active" id="viewCustomer" onclick="setView('customer')">Customer View</button>
-          <button class="view-toggle__btn" id="viewOperator" onclick="setView('operator')">Operator View</button>
+          <button class="view-toggle__btn" id="viewOperator" onclick="handleOperatorToggle()">
+            <svg viewBox="0 0 24 24" id="operatorLockIcon"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+            <span id="operatorBtnLabel">Operator View</span>
+          </button>
         </div>
 
         <div class="bundle-note" id="bundleNote">
           <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
           <span id="bundleNoteText"></span>
         </div>
+
+        <!-- Incomplete services notice -->
+        <div class="incomplete-notice" id="incompleteNotice" style="display:none;"></div>
 
         <!-- Customer view: typical estimate prominent -->
         <div id="customerView">
@@ -1000,6 +1245,7 @@
             <span class="total-amount" id="totalTypical">&mdash;</span>
           </div>
           <div class="total-context" id="totalContextCustomer"></div>
+          <div class="total-disclaimer" id="disclaimerCustomer"></div>
 
           <!-- Expandable details -->
           <button class="details-toggle" id="detailsToggle" onclick="toggleDetails()" style="display:none;">
@@ -1025,17 +1271,18 @@
             <span class="total-amount" id="totalRange">&mdash;</span>
           </div>
           <div class="total-context" id="totalContextOperator"></div>
+          <div class="total-disclaimer" id="disclaimerOperator"></div>
         </div>
 
         <button class="cta" id="cta" disabled onclick="handleCta()">
-          Request Your Quote
-          <span class="cta__sub">Free &middot; No commitment</span>
+          <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          <span id="ctaLabel">Copy Quote Summary</span>
         </button>
 
-        <!-- Copy Quote Summary -->
-        <button class="copy-btn" id="copyBtn" onclick="copyQuoteSummary()" style="display:none;">
-          <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-          <span id="copyBtnText">Copy Quote Summary</span>
+        <!-- Lock button (only visible in operator view) -->
+        <button class="lock-btn" id="lockBtn" onclick="lockOperator()" style="display:none;">
+          <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+          Lock Operator View
         </button>
 
         <div class="trust-row">
@@ -1055,30 +1302,59 @@
   <footer class="footer">NC Wash Works &mdash; Professional Property Cleaning</footer>
 </div>
 
-<!-- Modal -->
-<div class="modal-overlay" id="modal">
+<!-- PIN Modal -->
+<div class="modal-overlay" id="pinModal">
   <div class="modal-box">
-    <div class="modal-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
-    <div class="modal-title">Quote Request Received</div>
-    <div class="modal-desc" id="modalDesc"></div>
-    <div class="modal-sub">A specialist will confirm your final price within 24 hours.</div>
-    <button class="modal-close" onclick="closeModal()">Done</button>
+    <div class="modal-title">Enter Operator PIN</div>
+    <input class="pin-input" id="pinInput" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" placeholder="----">
+    <div class="pin-error" id="pinError">&nbsp;</div>
+    <div class="modal-actions">
+      <button class="modal-cancel" onclick="closePinModal()">Cancel</button>
+      <button class="modal-confirm" onclick="submitPin()">Unlock</button>
+    </div>
   </div>
 </div>
+
+<!-- Reset Modal -->
+<div class="modal-overlay" id="resetModal">
+  <div class="modal-box">
+    <div class="modal-title">Reset this quote?</div>
+    <div class="modal-desc">All selections will be cleared.</div>
+    <div class="modal-actions">
+      <button class="modal-cancel" onclick="closeResetModal()">Cancel</button>
+      <button class="modal-confirm modal-confirm--danger" onclick="confirmReset()">Reset</button>
+    </div>
+  </div>
+</div>
+
+<!-- Clipboard Fallback Modal -->
+<div class="modal-overlay" id="clipboardModal">
+  <div class="modal-box">
+    <div class="modal-title">Quote Summary</div>
+    <textarea class="clipboard-textarea" id="clipboardText" readonly></textarea>
+    <div class="modal-actions">
+      <button class="modal-confirm" onclick="selectAllClipboard()">Select All</button>
+      <button class="modal-cancel" onclick="closeClipboardModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">Copied to clipboard</div>
 
 <script>
 // =====================================================================
 // DATA
 // =====================================================================
 const SERVICES = {
-  driveway:   { name: 'Driveway / Concrete',  icon: 'driveway',  tiers: { small: { sqft: 'Up to 500 ft\u00B2',          low: 120, high: 200 }, standard: { sqft: '500\u20131,500 ft\u00B2',    low: 200, high: 350 }, large: { sqft: '1,500+ ft\u00B2',   low: 350, high: 600 } } },
-  house:      { name: 'House Wash',            icon: 'house',     tiers: { small: { sqft: 'Up to 1,000 ft\u00B2',        low: 200, high: 350 }, standard: { sqft: '1,000\u20132,500 ft\u00B2',  low: 350, high: 625 }, large: { sqft: '2,500+ ft\u00B2',   low: 625, high: 1000 } } },
-  roof:       { name: 'Roof Cleaning',         icon: 'roof',      tiers: { small: { sqft: 'Up to 1,000 ft\u00B2',        low: 300, high: 450 }, standard: { sqft: '1,000\u20132,000 ft\u00B2',  low: 450, high: 700 }, large: { sqft: '2,000+ ft\u00B2',   low: 700, high: 1200 } } },
-  patio:      { name: 'Patio / Deck',          icon: 'patio',     tiers: { small: { sqft: 'Up to 300 ft\u00B2',          low: 100, high: 175 }, standard: { sqft: '300\u2013800 ft\u00B2',      low: 175, high: 300 }, large: { sqft: '800+ ft\u00B2',     low: 300, high: 500 } } },
-  fence:      { name: 'Fence',                 icon: 'fence',     tiers: { small: { sqft: 'Up to 200 ft\u00B2',          low: 100, high: 150 }, standard: { sqft: '200\u2013600 ft\u00B2',      low: 150, high: 250 }, large: { sqft: '600+ ft\u00B2',     low: 250, high: 400 } } },
-  garage:     { name: 'Garage Floor',          icon: 'garage',    tiers: { small: { sqft: 'Up to 300 ft\u00B2',          low: 80,  high: 130 }, standard: { sqft: '300\u2013600 ft\u00B2',      low: 130, high: 200 }, large: { sqft: '600+ ft\u00B2',     low: 200, high: 350 } } },
-  commercial: { name: 'Commercial Exterior',   icon: 'commercial',tiers: { small: { sqft: 'Up to 2,000 ft\u00B2',        low: 500, high: 800 }, standard: { sqft: '2,000\u20135,000 ft\u00B2',  low: 800, high: 1500 }, large: { sqft: '5,000+ ft\u00B2', low: 1500, high: 2500 } } },
-  pool:       { name: 'Pool Deck',             icon: 'pool',      tiers: { small: { sqft: 'Up to 400 ft\u00B2',          low: 150, high: 225 }, standard: { sqft: '400\u20131,000 ft\u00B2',    low: 225, high: 400 }, large: { sqft: '1,000+ ft\u00B2',   low: 400, high: 650 } } },
+  driveway:   { name: 'Driveway / Concrete',  tiers: { small: { sqft: 'Up to 500 ft\u00B2',          low: 120, high: 200 }, standard: { sqft: '500\u20131,500 ft\u00B2',    low: 200, high: 350 }, large: { sqft: '1,500+ ft\u00B2',   low: 350, high: 600 } } },
+  house:      { name: 'House Wash',            tiers: { small: { sqft: 'Up to 1,000 ft\u00B2',        low: 200, high: 350 }, standard: { sqft: '1,000\u20132,500 ft\u00B2',  low: 350, high: 625 }, large: { sqft: '2,500+ ft\u00B2',   low: 625, high: 1000 } } },
+  roof:       { name: 'Roof Cleaning',         tiers: { small: { sqft: 'Up to 1,000 ft\u00B2',        low: 300, high: 450 }, standard: { sqft: '1,000\u20132,000 ft\u00B2',  low: 450, high: 700 }, large: { sqft: '2,000+ ft\u00B2',   low: 700, high: 1200 } } },
+  patio:      { name: 'Patio / Deck',          tiers: { small: { sqft: 'Up to 300 ft\u00B2',          low: 100, high: 175 }, standard: { sqft: '300\u2013800 ft\u00B2',      low: 175, high: 300 }, large: { sqft: '800+ ft\u00B2',     low: 300, high: 500 } } },
+  fence:      { name: 'Fence',                 tiers: { small: { sqft: 'Up to 200 ft\u00B2',          low: 100, high: 150 }, standard: { sqft: '200\u2013600 ft\u00B2',      low: 150, high: 250 }, large: { sqft: '600+ ft\u00B2',     low: 250, high: 400 } } },
+  garage:     { name: 'Garage Floor',          tiers: { small: { sqft: 'Up to 300 ft\u00B2',          low: 80,  high: 130 }, standard: { sqft: '300\u2013600 ft\u00B2',      low: 130, high: 200 }, large: { sqft: '600+ ft\u00B2',     low: 200, high: 350 } } },
+  commercial: { name: 'Commercial Exterior',   tiers: { small: { sqft: 'Up to 2,000 ft\u00B2',        low: 500, high: 800 }, standard: { sqft: '2,000\u20135,000 ft\u00B2',  low: 800, high: 1500 }, large: { sqft: '5,000+ ft\u00B2', low: 1500, high: 2500 } } },
+  pool:       { name: 'Pool Deck',             tiers: { small: { sqft: 'Up to 400 ft\u00B2',          low: 150, high: 225 }, standard: { sqft: '400\u20131,000 ft\u00B2',    low: 225, high: 400 }, large: { sqft: '1,000+ ft\u00B2',   low: 400, high: 650 } } },
 };
 
 const ADDONS = [
@@ -1090,19 +1366,20 @@ const ADDONS = [
   { id: 'rush',    name: 'Priority Scheduling', desc: 'Guaranteed within 48 hours',       price: 100 },
 ];
 
-// Multi-service discount tiers
 const BUNDLE_DISCOUNTS = [
   { min: 4, pct: 15, label: 'Whole-property package' },
   { min: 3, pct: 12, label: 'Multi-service bundle' },
   { min: 2, pct: 8,  label: 'Two-service bundle' },
 ];
 
-// Surface conditions
 const CONDITIONS = [
-  { id: 'normal',    label: 'Normal',                adj: 'Standard cleaning', pct: 0 },
-  { id: 'mildew',    label: 'Heavy Mildew',          adj: '+12% adjustment',   pct: 12 },
-  { id: 'oxidation', label: 'Oxidation / Extra Prep', adj: '+20% adjustment',   pct: 20 },
+  { id: 'normal',    label: 'Normal',                 adj: 'Standard cleaning', pct: 0 },
+  { id: 'mildew',    label: 'Heavy Mildew',           adj: 'More dwell time (+12%)', pct: 12 },
+  { id: 'oxidation', label: 'Oxidation / Extra Prep', adj: 'Extra prep & risk (+20%)', pct: 20 },
 ];
+
+const OPERATOR_PIN = '0420';
+const DISCLAIMER = 'Final price confirmed after on-site inspection (access, staining, surface condition).';
 
 // =====================================================================
 // STATE
@@ -1113,43 +1390,129 @@ let state = {
   condition: 'normal',
   viewMode: 'customer',
   detailsOpen: false,
+  operatorUnlocked: false,
+  conditionInfoOpen: false,
 };
 
 // =====================================================================
-// DOM
+// DOM REFS
 // =====================================================================
-const serviceGrid    = document.getElementById('serviceGrid');
-const configsEl      = document.getElementById('configs');
-const addonsEl       = document.getElementById('addons');
-const conditionRowEl = document.getElementById('conditionRow');
-const bundleNote     = document.getElementById('bundleNote');
-const bundleNoteText = document.getElementById('bundleNoteText');
-const contextHint    = document.getElementById('contextHint');
-const contextHintText= document.getElementById('contextHintText');
-const ctaEl          = document.getElementById('cta');
-const copyBtn        = document.getElementById('copyBtn');
-const copyBtnText    = document.getElementById('copyBtnText');
+const serviceGrid     = document.getElementById('serviceGrid');
+const configsEl       = document.getElementById('configs');
+const addonsEl        = document.getElementById('addons');
+const conditionRowEl  = document.getElementById('conditionRow');
+const bundleNote      = document.getElementById('bundleNote');
+const bundleNoteText  = document.getElementById('bundleNoteText');
+const contextHint     = document.getElementById('contextHint');
+const contextHintText = document.getElementById('contextHintText');
+const ctaEl           = document.getElementById('cta');
+const ctaLabel        = document.getElementById('ctaLabel');
+const incompleteNotice= document.getElementById('incompleteNotice');
 
-// Customer view elements
-const customerView          = document.getElementById('customerView');
-const breakdownCustomerEl   = document.getElementById('breakdownCustomer');
-const totalTypicalEl        = document.getElementById('totalTypical');
-const totalContextCustomerEl= document.getElementById('totalContextCustomer');
-const detailsToggleEl       = document.getElementById('detailsToggle');
-const detailsContentEl      = document.getElementById('detailsContent');
-const breakdownDetailsEl    = document.getElementById('breakdownDetails');
+const customerView           = document.getElementById('customerView');
+const breakdownCustomerEl    = document.getElementById('breakdownCustomer');
+const totalTypicalEl         = document.getElementById('totalTypical');
+const totalContextCustomerEl = document.getElementById('totalContextCustomer');
+const disclaimerCustomerEl   = document.getElementById('disclaimerCustomer');
+const detailsToggleEl        = document.getElementById('detailsToggle');
+const detailsContentEl       = document.getElementById('detailsContent');
+const breakdownDetailsEl     = document.getElementById('breakdownDetails');
 
-// Operator view elements
-const operatorView          = document.getElementById('operatorView');
-const breakdownOperatorEl   = document.getElementById('breakdownOperator');
-const totalRangeEl          = document.getElementById('totalRange');
-const totalContextOperatorEl= document.getElementById('totalContextOperator');
+const operatorView           = document.getElementById('operatorView');
+const breakdownOperatorEl    = document.getElementById('breakdownOperator');
+const totalRangeEl           = document.getElementById('totalRange');
+const totalContextOperatorEl = document.getElementById('totalContextOperator');
+const disclaimerOperatorEl   = document.getElementById('disclaimerOperator');
 
-// View toggle buttons
-const viewCustomerBtn = document.getElementById('viewCustomer');
-const viewOperatorBtn = document.getElementById('viewOperator');
+const viewCustomerBtn  = document.getElementById('viewCustomer');
+const viewOperatorBtn  = document.getElementById('viewOperator');
+const operatorLockIcon = document.getElementById('operatorLockIcon');
+const operatorBtnLabel = document.getElementById('operatorBtnLabel');
+const lockBtn          = document.getElementById('lockBtn');
+
+const pinModal   = document.getElementById('pinModal');
+const pinInput   = document.getElementById('pinInput');
+const pinError   = document.getElementById('pinError');
+const resetModal = document.getElementById('resetModal');
+const clipModal  = document.getElementById('clipboardModal');
+const clipText   = document.getElementById('clipboardText');
+const toastEl    = document.getElementById('toast');
 
 function fmt(n) { return '$' + Math.round(n).toLocaleString(); }
+
+// =====================================================================
+// TOAST
+// =====================================================================
+let toastTimer = null;
+function showToast(msg) {
+  toastEl.textContent = msg || 'Copied to clipboard';
+  toastEl.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toastEl.classList.remove('show'), 2000);
+}
+
+// =====================================================================
+// A) OPERATOR PIN GATE
+// =====================================================================
+function handleOperatorToggle() {
+  if (state.viewMode === 'operator') {
+    setView('customer');
+    return;
+  }
+  if (state.operatorUnlocked) {
+    setView('operator');
+  } else {
+    openPinModal();
+  }
+}
+
+function openPinModal() {
+  pinInput.value = '';
+  pinError.innerHTML = '&nbsp;';
+  pinInput.classList.remove('error');
+  pinModal.classList.add('open');
+  setTimeout(() => pinInput.focus(), 100);
+}
+
+function closePinModal() {
+  pinModal.classList.remove('open');
+}
+
+function submitPin() {
+  if (pinInput.value === OPERATOR_PIN) {
+    state.operatorUnlocked = true;
+    closePinModal();
+    updateOperatorBtnUI();
+    setView('operator');
+  } else {
+    pinError.textContent = 'Incorrect PIN';
+    pinInput.classList.add('error');
+    pinInput.value = '';
+    setTimeout(() => pinInput.classList.remove('error'), 400);
+    setTimeout(() => pinInput.focus(), 100);
+  }
+}
+
+function lockOperator() {
+  state.operatorUnlocked = false;
+  updateOperatorBtnUI();
+  setView('customer');
+}
+
+function updateOperatorBtnUI() {
+  if (state.operatorUnlocked) {
+    operatorLockIcon.style.display = 'none';
+  } else {
+    operatorLockIcon.style.display = '';
+  }
+}
+
+pinInput.addEventListener('keydown', e => {
+  if (e.key === 'Enter') submitPin();
+  if (e.key === 'Escape') closePinModal();
+});
+
+pinModal.addEventListener('click', e => { if (e.target === pinModal) closePinModal(); });
 
 // =====================================================================
 // VIEW TOGGLE
@@ -1160,6 +1523,7 @@ function setView(mode) {
   viewOperatorBtn.classList.toggle('active', mode === 'operator');
   customerView.style.display = mode === 'customer' ? '' : 'none';
   operatorView.style.display = mode === 'operator' ? '' : 'none';
+  lockBtn.style.display = (mode === 'operator') ? '' : 'none';
   calculate();
 }
 
@@ -1172,6 +1536,51 @@ function toggleDetails() {
   detailsContentEl.classList.toggle('open', state.detailsOpen);
   detailsToggleEl.childNodes[0].textContent = state.detailsOpen ? 'Hide Full Range ' : 'View Full Range ';
 }
+
+// =====================================================================
+// CONDITION INFO TOGGLE
+// =====================================================================
+function toggleConditionInfo() {
+  state.conditionInfoOpen = !state.conditionInfoOpen;
+  document.getElementById('conditionInfo').style.display = state.conditionInfoOpen ? '' : 'none';
+}
+
+// =====================================================================
+// D) RESET
+// =====================================================================
+function promptReset() {
+  const hasSelections = Object.keys(state.selectedServices).length > 0 || state.activeAddons.size > 0 || state.condition !== 'normal';
+  if (!hasSelections) return;
+  resetModal.classList.add('open');
+}
+
+function closeResetModal() { resetModal.classList.remove('open'); }
+
+function confirmReset() {
+  state.selectedServices = {};
+  state.activeAddons = new Set();
+  state.condition = 'normal';
+  state.detailsOpen = false;
+  state.conditionInfoOpen = false;
+  document.getElementById('conditionInfo').style.display = 'none';
+  detailsToggleEl.classList.remove('open');
+  detailsContentEl.classList.remove('open');
+
+  if (state.viewMode === 'operator') {
+    state.operatorUnlocked = false;
+    updateOperatorBtnUI();
+    setView('customer');
+  }
+
+  closeResetModal();
+  renderServiceGrid();
+  renderConfigs();
+  renderConditions();
+  renderAddons();
+  calculate();
+}
+
+resetModal.addEventListener('click', e => { if (e.target === resetModal) closeResetModal(); });
 
 // =====================================================================
 // RENDER: Service Grid
@@ -1209,6 +1618,7 @@ function renderConfigs() {
   configsEl.innerHTML = keys.map(key => {
     const s = SERVICES[key];
     const selectedTier = state.selectedServices[key];
+    const isIncomplete = selectedTier === '';
     const tierKeys = ['small', 'standard', 'large'];
 
     const sizeBtns = tierKeys.map(tk => {
@@ -1229,9 +1639,9 @@ function renderConfigs() {
     }).join('');
 
     return `
-      <div class="config-item">
+      <div class="config-item${isIncomplete ? ' config-item--incomplete' : ''}">
         <div class="config-item__header">
-          <span class="config-item__title">${s.name}</span>
+          <span class="config-item__title">${s.name}${isIncomplete ? ' \u2014 select a size' : ''}</span>
           <button class="config-item__remove" onclick="toggleService('${key}')" title="Remove">&times;</button>
         </div>
         <div class="size-row">${sizeBtns}</div>
@@ -1335,10 +1745,23 @@ function getDiscount() {
 function calculate() {
   const entries = Object.entries(state.selectedServices);
   const configured = entries.filter(([, tier]) => tier !== '');
+  const incomplete = entries.filter(([, tier]) => tier === '');
 
   // Condition multiplier
   const condObj = CONDITIONS.find(c => c.id === state.condition);
   const condMult = 1 + (condObj ? condObj.pct / 100 : 0);
+
+  // Update CTA label based on view
+  ctaLabel.textContent = state.viewMode === 'operator' ? 'Copy Detailed Breakdown' : 'Copy Quote Summary';
+
+  // E) Incomplete service notice
+  if (incomplete.length > 0) {
+    const names = incomplete.map(([key]) => SERVICES[key].name).join(', ');
+    incompleteNotice.textContent = 'Select a size for: ' + names;
+    incompleteNotice.style.display = '';
+  } else {
+    incompleteNotice.style.display = 'none';
+  }
 
   if (configured.length === 0) {
     breakdownCustomerEl.innerHTML = '<div class="quote-empty">Select a service to get started.</div>';
@@ -1349,14 +1772,15 @@ function calculate() {
     totalRangeEl.classList.remove('live');
     totalContextCustomerEl.textContent = '';
     totalContextOperatorEl.textContent = '';
+    disclaimerCustomerEl.textContent = '';
+    disclaimerOperatorEl.textContent = '';
     bundleNote.classList.remove('visible');
     ctaEl.disabled = true;
-    copyBtn.style.display = 'none';
     detailsToggleEl.style.display = 'none';
     return;
   }
 
-  const allConfigured = entries.every(([, tier]) => tier !== '');
+  const allConfigured = entries.length > 0 && entries.every(([, tier]) => tier !== '');
 
   // Sum service ranges
   let servLow = 0, servHigh = 0;
@@ -1476,20 +1900,15 @@ function calculate() {
   breakdownDetailsEl.innerHTML = detHtml;
 
   // ===== Totals =====
-  // Customer: typical (midpoint)
   totalTypicalEl.textContent = fmt(totalMid);
   totalTypicalEl.classList.add('live');
   totalContextCustomerEl.textContent = 'Based on typical project scope';
+  disclaimerCustomerEl.textContent = DISCLAIMER;
 
-  // Operator: full range
   totalRangeEl.textContent = fmt(totalLow) + ' \u2013 ' + fmt(totalHigh);
   totalRangeEl.classList.add('live');
-
-  if (disc) {
-    totalContextOperatorEl.textContent = 'Typical project: ' + fmt(totalMid);
-  } else {
-    totalContextOperatorEl.textContent = '';
-  }
+  totalContextOperatorEl.textContent = disc ? 'Typical project: ' + fmt(totalMid) : '';
+  disclaimerOperatorEl.textContent = DISCLAIMER;
 
   // Bundle note
   if (disc) {
@@ -1502,10 +1921,7 @@ function calculate() {
   // Details toggle visibility
   detailsToggleEl.style.display = allConfigured ? '' : 'none';
 
-  // Copy button visibility
-  copyBtn.style.display = allConfigured ? '' : 'none';
-
-  // CTA
+  // CTA — disabled if any service missing a size
   ctaEl.disabled = !allConfigured;
 
   // Store for copy
@@ -1513,93 +1929,107 @@ function calculate() {
 }
 
 // =====================================================================
-// COPY QUOTE SUMMARY
+// B) CTA = COPY
 // =====================================================================
-function copyQuoteSummary() {
+function handleCta() {
   const q = window._lastQuote;
   if (!q) return;
 
+  const text = state.viewMode === 'operator' ? buildOperatorText(q) : buildCustomerText(q);
+  copyToClipboard(text);
+}
+
+function buildCustomerText(q) {
   let lines = ['NC Wash Works \u2014 Quote Summary', ''];
-
   q.serviceRows.forEach(r => {
-    const mid = Math.round((r.low + r.high) / 2);
-    lines.push(`${r.label}: ${fmt(mid)} (range: ${fmt(r.low)}\u2013${fmt(r.high)})`);
+    lines.push(`${r.name} \u00B7 ${r.sizeLabel}`);
   });
-
-  if (q.condObj && q.condObj.pct > 0) {
-    lines.push(`Surface condition: ${q.condObj.label} (+${q.condObj.pct}%)`);
-  }
-
-  if (q.disc) {
-    const discMid = Math.round((q.discountLow + q.discountHigh) / 2);
-    lines.push(`Bundle pricing: \u2212${fmt(discMid)} (${q.disc.pct}% off)`);
-  }
-
-  q.addonRows.forEach(r => {
-    lines.push(`+ ${r.label}: ${fmt(r.price)}`);
-  });
-
   lines.push('');
-  lines.push(`Typical Estimate: ${fmt(q.totalMid)}`);
-  lines.push(`Full Range: ${fmt(q.totalLow)} \u2013 ${fmt(q.totalHigh)}`);
-
-  const text = lines.join('\n');
-
-  navigator.clipboard.writeText(text).then(() => {
-    copyBtn.classList.add('copied');
-    copyBtnText.textContent = 'Copied!';
-    setTimeout(() => {
-      copyBtn.classList.remove('copied');
-      copyBtnText.textContent = 'Copy Quote Summary';
-    }, 2000);
-  }).catch(() => {
-    // Fallback for older browsers / non-HTTPS
-    const ta = document.createElement('textarea');
-    ta.value = text;
-    ta.style.position = 'fixed';
-    ta.style.opacity = '0';
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand('copy');
-    document.body.removeChild(ta);
-    copyBtn.classList.add('copied');
-    copyBtnText.textContent = 'Copied!';
-    setTimeout(() => {
-      copyBtn.classList.remove('copied');
-      copyBtnText.textContent = 'Copy Quote Summary';
-    }, 2000);
+  if (q.condObj && q.condObj.pct > 0) {
+    lines.push('Surface condition: ' + q.condObj.label);
+  }
+  if (q.disc) {
+    lines.push('Bundle pricing applied');
+  }
+  q.addonRows.forEach(r => {
+    lines.push('+ ' + r.label + ': ' + fmt(r.price));
   });
+  lines.push('');
+  lines.push('Typical Estimate: ' + fmt(q.totalMid));
+  lines.push('');
+  lines.push(DISCLAIMER);
+  return lines.join('\n');
 }
+
+function buildOperatorText(q) {
+  let lines = ['NC Wash Works \u2014 Detailed Breakdown', ''];
+  q.serviceRows.forEach(r => {
+    lines.push(r.label + ': ' + fmt(r.low) + '\u2013' + fmt(r.high));
+  });
+  if (q.condObj && q.condObj.pct > 0) {
+    lines.push('Surface condition: ' + q.condObj.label + ' (+' + q.condObj.pct + '%)');
+  }
+  if (q.disc) {
+    lines.push('Bundle pricing: \u2212' + fmt(q.discountLow) + '\u2013' + fmt(q.discountHigh) + ' (' + q.disc.pct + '% off)');
+  }
+  q.addonRows.forEach(r => {
+    lines.push('+ ' + r.label + ': ' + fmt(r.price));
+  });
+  lines.push('');
+  lines.push('Estimated Range: ' + fmt(q.totalLow) + ' \u2013 ' + fmt(q.totalHigh));
+  lines.push('Typical Project: ' + fmt(q.totalMid));
+  lines.push('');
+  lines.push(DISCLAIMER);
+  return lines.join('\n');
+}
+
+function copyToClipboard(text) {
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(() => {
+      showToast('Copied to clipboard');
+    }).catch(() => {
+      showClipboardFallback(text);
+    });
+  } else {
+    showClipboardFallback(text);
+  }
+}
+
+function showClipboardFallback(text) {
+  clipText.value = text;
+  clipModal.classList.add('open');
+  setTimeout(() => {
+    clipText.focus();
+    clipText.select();
+  }, 100);
+}
+
+function selectAllClipboard() {
+  clipText.focus();
+  clipText.select();
+}
+
+function closeClipboardModal() {
+  clipModal.classList.remove('open');
+}
+
+clipModal.addEventListener('click', e => { if (e.target === clipModal) closeClipboardModal(); });
 
 // =====================================================================
-// CTA / MODAL
+// MODAL KEYBOARD
 // =====================================================================
-function handleCta() {
-  const entries = Object.entries(state.selectedServices);
-  if (entries.length === 0) return;
-
-  const q = window._lastQuote;
-  const names = entries.map(([key]) => SERVICES[key].name).join(', ');
-  const amount = q ? fmt(q.totalMid) + ' (typical)' : totalTypicalEl.textContent;
-  document.getElementById('modalDesc').textContent = names + ' \u2014 ' + amount;
-  document.getElementById('modal').classList.add('open');
-}
-
-function closeModal() {
-  document.getElementById('modal').classList.remove('open');
-}
-
-document.getElementById('modal').addEventListener('click', e => {
-  if (e.target === e.currentTarget) closeModal();
-});
-
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeModal();
+  if (e.key === 'Escape') {
+    closePinModal();
+    closeResetModal();
+    closeClipboardModal();
+  }
 });
 
 // =====================================================================
 // INIT
 // =====================================================================
+updateOperatorBtnUI();
 renderServiceGrid();
 renderConditions();
 renderAddons();
