@@ -1128,6 +1128,98 @@
       opacity: 1;
       transform: translateX(-50%) translateY(0);
     }
+
+    /* ===== Customer Info Card ===== */
+    .customer-fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+    }
+
+    .customer-fields .field--full { grid-column: 1 / -1; }
+
+    .customer-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .customer-field__label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+    }
+
+    .customer-field__input {
+      width: 100%;
+      padding: 0.6rem 0.75rem;
+      background: var(--bg-input);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 0.85rem;
+      min-height: 44px;
+      transition: border-color var(--transition);
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .customer-field__input::placeholder { color: var(--text-muted); opacity: 0.6; }
+    .customer-field__input:focus { outline: none; border-color: var(--border-focus); }
+
+    @media (max-width: 480px) {
+      .customer-fields { grid-template-columns: 1fr; }
+      .customer-fields .field--full { grid-column: auto; }
+    }
+
+    /* ===== Share Link Button ===== */
+    .share-btn {
+      width: 100%;
+      padding: 0.65rem 1rem;
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      color: var(--text-secondary);
+      font-size: 0.82rem;
+      font-weight: 500;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all var(--transition);
+      min-height: 44px;
+      margin-top: 0.5rem;
+      -webkit-tap-highlight-color: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+    }
+
+    .share-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent-soft);
+    }
+
+    .share-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    .share-btn:disabled:hover {
+      border-color: var(--border);
+      color: var(--text-secondary);
+    }
+
+    .share-btn svg {
+      width: 14px; height: 14px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+    }
   </style>
 </head>
 <body>
@@ -1146,6 +1238,34 @@
   <div class="calculator">
     <!-- Left Column -->
     <div class="left-col">
+
+      <!-- Customer Info -->
+      <div class="card fade-up">
+        <div class="card__heading">
+          <div class="card__heading-icon">
+            <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+          Customer Info
+        </div>
+        <div class="customer-fields">
+          <div class="customer-field">
+            <label class="customer-field__label" for="custName">Name</label>
+            <input class="customer-field__input" id="custName" type="text" placeholder="John Smith" autocomplete="name">
+          </div>
+          <div class="customer-field">
+            <label class="customer-field__label" for="custPhone">Phone</label>
+            <input class="customer-field__input" id="custPhone" type="tel" placeholder="919-555-0123" autocomplete="tel">
+          </div>
+          <div class="customer-field field--full">
+            <label class="customer-field__label" for="custAddress">Address</label>
+            <input class="customer-field__input" id="custAddress" type="text" placeholder="123 Main St, Raleigh, NC" autocomplete="street-address">
+          </div>
+          <div class="customer-field field--full">
+            <label class="customer-field__label" for="custNotes">Notes <span style="font-weight:400;text-transform:none;letter-spacing:0;">(optional)</span></label>
+            <input class="customer-field__input" id="custNotes" type="text" placeholder="Gate code, pet, special instructions...">
+          </div>
+        </div>
+      </div>
 
       <!-- Services -->
       <div class="card fade-up">
@@ -1277,6 +1397,11 @@
         <button class="cta" id="cta" disabled onclick="handleCta()">
           <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
           <span id="ctaLabel">Copy Quote Summary</span>
+        </button>
+
+        <button class="share-btn" id="shareBtn" disabled onclick="handleShareLink()">
+          <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          Copy Share Link
         </button>
 
         <!-- Lock button (only visible in operator view) -->
@@ -1437,6 +1562,26 @@ const resetModal = document.getElementById('resetModal');
 const clipModal  = document.getElementById('clipboardModal');
 const clipText   = document.getElementById('clipboardText');
 const toastEl    = document.getElementById('toast');
+const shareBtn   = document.getElementById('shareBtn');
+
+// Customer info fields
+const custNameEl    = document.getElementById('custName');
+const custPhoneEl   = document.getElementById('custPhone');
+const custAddressEl = document.getElementById('custAddress');
+const custNotesEl   = document.getElementById('custNotes');
+
+// Compact URL key mappings
+const SERVICE_URL_KEYS = {
+  driveway: 'drv', house: 'hw', roof: 'roof', patio: 'pat',
+  fence: 'fnc', garage: 'gar', commercial: 'com', pool: 'pool'
+};
+const URL_KEY_TO_SERVICE = Object.fromEntries(Object.entries(SERVICE_URL_KEYS).map(([k,v]) => [v,k]));
+
+const SIZE_URL_KEYS = { small: 'sm', standard: 'std', large: 'lg' };
+const URL_KEY_TO_SIZE = Object.fromEntries(Object.entries(SIZE_URL_KEYS).map(([k,v]) => [v,k]));
+
+const CONDITION_URL_KEYS = { normal: 'n', mildew: 'hm', oxidation: 'ox' };
+const URL_KEY_TO_CONDITION = Object.fromEntries(Object.entries(CONDITION_URL_KEYS).map(([k,v]) => [v,k]));
 
 function fmt(n) { return '$' + Math.round(n).toLocaleString(); }
 
@@ -1565,6 +1710,12 @@ function confirmReset() {
   document.getElementById('conditionInfo').style.display = 'none';
   detailsToggleEl.classList.remove('open');
   detailsContentEl.classList.remove('open');
+
+  // Clear customer fields
+  custNameEl.value = '';
+  custPhoneEl.value = '';
+  custAddressEl.value = '';
+  custNotesEl.value = '';
 
   if (state.viewMode === 'operator') {
     state.operatorUnlocked = false;
@@ -1776,6 +1927,7 @@ function calculate() {
     disclaimerOperatorEl.textContent = '';
     bundleNote.classList.remove('visible');
     ctaEl.disabled = true;
+    shareBtn.disabled = true;
     detailsToggleEl.style.display = 'none';
     return;
   }
@@ -1921,8 +2073,9 @@ function calculate() {
   // Details toggle visibility
   detailsToggleEl.style.display = allConfigured ? '' : 'none';
 
-  // CTA — disabled if any service missing a size
+  // CTA + Share — disabled if any service missing a size
   ctaEl.disabled = !allConfigured;
+  shareBtn.disabled = !allConfigured;
 
   // Store for copy
   window._lastQuote = { serviceRows, addonRows, disc, discountLow, discountHigh, totalLow, totalHigh, totalMid, condObj, addonsTotal };
@@ -1941,6 +2094,11 @@ function handleCta() {
 
 function buildCustomerText(q) {
   let lines = ['NC Wash Works \u2014 Quote Summary', ''];
+  const custBlock = getCustomerBlock();
+  if (custBlock.length > 0) {
+    lines.push(...custBlock);
+    lines.push('');
+  }
   q.serviceRows.forEach(r => {
     lines.push(`${r.name} \u00B7 ${r.sizeLabel}`);
   });
@@ -1963,6 +2121,11 @@ function buildCustomerText(q) {
 
 function buildOperatorText(q) {
   let lines = ['NC Wash Works \u2014 Detailed Breakdown', ''];
+  const custBlock = getCustomerBlock();
+  if (custBlock.length > 0) {
+    lines.push(...custBlock);
+    lines.push('');
+  }
   q.serviceRows.forEach(r => {
     lines.push(r.label + ': ' + fmt(r.low) + '\u2013' + fmt(r.high));
   });
@@ -2016,6 +2179,165 @@ function closeClipboardModal() {
 clipModal.addEventListener('click', e => { if (e.target === clipModal) closeClipboardModal(); });
 
 // =====================================================================
+// SHAREABLE LINK HELPERS
+// =====================================================================
+function getStateFromUI() {
+  const services = [];
+  for (const [key, tier] of Object.entries(state.selectedServices)) {
+    services.push({ key, size: tier });
+  }
+  const extras = Array.from(state.activeAddons);
+  const customer = {
+    name: custNameEl.value.trim(),
+    phone: custPhoneEl.value.trim(),
+    address: custAddressEl.value.trim(),
+    notes: custNotesEl.value.trim(),
+  };
+  return { condition: state.condition, services, extras, customer };
+}
+
+function encodeStateToQuery(st) {
+  const params = new URLSearchParams();
+  params.set('v', '1');
+
+  // Condition
+  const ck = CONDITION_URL_KEYS[st.condition];
+  if (ck && st.condition !== 'normal') params.set('c', ck);
+
+  // Services with sizes
+  if (st.services.length > 0) {
+    const sParts = st.services.map(s => {
+      const uk = SERVICE_URL_KEYS[s.key] || s.key;
+      const sk = s.size ? (SIZE_URL_KEYS[s.size] || s.size) : '';
+      return sk ? uk + ':' + sk : uk;
+    });
+    params.set('s', sParts.join(','));
+  }
+
+  // Extras
+  if (st.extras.length > 0) {
+    params.set('x', st.extras.join(','));
+  }
+
+  // Customer info (only if non-empty)
+  if (st.customer.name)    params.set('n', st.customer.name);
+  if (st.customer.phone)   params.set('p', st.customer.phone);
+  if (st.customer.address) params.set('a', st.customer.address);
+  if (st.customer.notes)   params.set('note', st.customer.notes);
+
+  return params.toString();
+}
+
+function parseQueryToState(search) {
+  if (!search || search.length < 2) return null;
+  const params = new URLSearchParams(search);
+  if (!params.has('v')) return null; // Not a share link
+
+  const result = { condition: 'normal', services: [], extras: [], customer: {} };
+
+  // Condition
+  const c = params.get('c');
+  if (c && URL_KEY_TO_CONDITION[c]) {
+    result.condition = URL_KEY_TO_CONDITION[c];
+  }
+
+  // Services
+  const s = params.get('s');
+  if (s) {
+    s.split(',').forEach(part => {
+      const [uk, sk] = part.split(':');
+      const serviceKey = URL_KEY_TO_SERVICE[uk] || uk;
+      if (SERVICES[serviceKey]) {
+        const sizeKey = sk ? (URL_KEY_TO_SIZE[sk] || sk) : '';
+        // Validate size key
+        const validSize = sizeKey && SERVICES[serviceKey].tiers[sizeKey] ? sizeKey : '';
+        result.services.push({ key: serviceKey, size: validSize });
+      }
+    });
+  }
+
+  // Extras
+  const x = params.get('x');
+  if (x) {
+    x.split(',').forEach(id => {
+      if (ADDONS.find(a => a.id === id)) {
+        result.extras.push(id);
+      }
+    });
+  }
+
+  // Customer info
+  if (params.get('n'))    result.customer.name    = params.get('n');
+  if (params.get('p'))    result.customer.phone   = params.get('p');
+  if (params.get('a'))    result.customer.address = params.get('a');
+  if (params.get('note')) result.customer.notes   = params.get('note');
+
+  return result;
+}
+
+function applyStateToUI(parsed) {
+  // Apply services
+  state.selectedServices = {};
+  parsed.services.forEach(s => {
+    state.selectedServices[s.key] = s.size;
+  });
+
+  // Apply extras
+  state.activeAddons = new Set(parsed.extras);
+
+  // Apply condition
+  state.condition = parsed.condition;
+
+  // Apply customer info
+  if (parsed.customer.name)    custNameEl.value    = parsed.customer.name;
+  if (parsed.customer.phone)   custPhoneEl.value   = parsed.customer.phone;
+  if (parsed.customer.address) custAddressEl.value = parsed.customer.address;
+  if (parsed.customer.notes)   custNotesEl.value   = parsed.customer.notes;
+
+  // Always load as customer view with operator locked
+  state.viewMode = 'customer';
+  state.operatorUnlocked = false;
+  updateOperatorBtnUI();
+  setView('customer');
+
+  // Re-render everything
+  renderServiceGrid();
+  renderConfigs();
+  renderConditions();
+  renderAddons();
+  calculate();
+}
+
+function handleShareLink() {
+  const st = getStateFromUI();
+  const query = encodeStateToQuery(st);
+  const url = window.location.origin + window.location.pathname + '?' + query;
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(url).then(() => {
+      showToast('Share link copied');
+    }).catch(() => {
+      prompt('Copy this link:', url);
+    });
+  } else {
+    prompt('Copy this link:', url);
+  }
+}
+
+function getCustomerBlock() {
+  const name    = custNameEl.value.trim();
+  const phone   = custPhoneEl.value.trim();
+  const address = custAddressEl.value.trim();
+  const notes   = custNotesEl.value.trim();
+  const lines = [];
+  if (name)    lines.push('Customer: ' + name);
+  if (phone)   lines.push('Phone: ' + phone);
+  if (address) lines.push('Address: ' + address);
+  if (notes)   lines.push('Notes: ' + notes);
+  return lines;
+}
+
+// =====================================================================
 // MODAL KEYBOARD
 // =====================================================================
 document.addEventListener('keydown', e => {
@@ -2034,6 +2356,19 @@ renderServiceGrid();
 renderConditions();
 renderAddons();
 calculate();
+
+// Load from shared link if URL has params
+(function loadFromUrl() {
+  const parsed = parseQueryToState(window.location.search);
+  if (parsed) {
+    applyStateToUI(parsed);
+    // Clean URL without reloading
+    if (window.history && window.history.replaceState) {
+      window.history.replaceState({}, '', window.location.pathname);
+    }
+    setTimeout(() => showToast('Loaded from shared link'), 300);
+  }
+})();
 </script>
 
 </body>
