@@ -1220,6 +1220,373 @@
       stroke-linejoin: round;
       flex-shrink: 0;
     }
+
+    /* ===== Final Price Override ===== */
+    .final-price-wrap { margin-bottom: 1rem; }
+
+    .final-price-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-bottom: 0.3rem;
+    }
+
+    .final-price-input {
+      width: 100%;
+      padding: 0.6rem 0.75rem;
+      background: var(--bg-input);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 600;
+      min-height: 44px;
+      transition: border-color var(--transition);
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .final-price-input::placeholder { color: var(--text-muted); opacity: 0.5; }
+    .final-price-input:focus { outline: none; border-color: var(--accent); }
+
+    /* ===== Action Buttons Row ===== */
+    .action-btns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .action-btn {
+      padding: 0.6rem 0.5rem;
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-secondary);
+      font-family: inherit;
+      font-size: 0.75rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all var(--transition);
+      min-height: 44px;
+      -webkit-tap-highlight-color: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.3rem;
+    }
+
+    .action-btn:hover { border-color: var(--accent); color: var(--accent-soft); }
+    .action-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .action-btn:disabled:hover { border-color: var(--border); color: var(--text-secondary); }
+
+    .action-btn svg {
+      width: 13px; height: 13px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+    }
+
+    /* ===== Saved Quotes Section ===== */
+    .saved-section { margin-top: 2rem; }
+    .saved-section .card__heading { margin-bottom: 1rem; }
+
+    .sq-bar { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
+
+    .sq-search {
+      flex: 1;
+      padding: 0.55rem 0.75rem;
+      background: var(--bg-input);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 0.82rem;
+      min-height: 44px;
+      transition: border-color var(--transition);
+    }
+
+    .sq-search::placeholder { color: var(--text-muted); opacity: 0.6; }
+    .sq-search:focus { outline: none; border-color: var(--border-focus); }
+
+    .sq-list { display: flex; flex-direction: column; gap: 0.5rem; }
+
+    .sq-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.85rem 1rem;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      transition: border-color var(--transition);
+    }
+
+    .sq-item:hover { border-color: var(--border-light); }
+
+    .sq-info { flex: 1; min-width: 0; }
+
+    .sq-name {
+      font-size: 0.85rem;
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .sq-meta {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+      margin-top: 0.15rem;
+    }
+
+    .sq-status {
+      display: inline-block;
+      padding: 0.1rem 0.4rem;
+      border-radius: 4px;
+      font-size: 0.62rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      background: var(--accent-glow);
+      color: var(--accent-soft);
+    }
+
+    .sq-price {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--accent-soft);
+      white-space: nowrap;
+      margin-right: 0.5rem;
+    }
+
+    .sq-actions { display: flex; gap: 0.3rem; }
+
+    .sq-action {
+      width: 34px; height: 34px;
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: all var(--transition);
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .sq-action:hover { border-color: var(--border-light); color: var(--text-secondary); }
+    .sq-action--delete:hover { border-color: #ef4444; color: #ef4444; }
+
+    .sq-action svg {
+      width: 13px; height: 13px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .sq-empty {
+      text-align: center;
+      padding: 2rem 1rem;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+    }
+
+    /* ===== Estimate View ===== */
+    .estimate-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 150;
+      background: #fff;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .estimate-overlay.open { display: block; }
+
+    .estimate-page {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem;
+      color: #1a1a2e;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .est-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 2px solid #e5e7eb;
+    }
+
+    .est-logo { height: 48px; width: auto; border-radius: 6px; }
+    .est-brand { flex: 1; }
+    .est-brand-name { font-size: 1.15rem; font-weight: 700; color: #1a1a2e; }
+    .est-brand-sub { font-size: 0.75rem; color: #6b7280; }
+    .est-number { text-align: right; }
+
+    .est-number-label {
+      font-size: 0.65rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #9ca3af;
+    }
+
+    .est-number-value { font-size: 1rem; font-weight: 700; color: #1a1a2e; }
+    .est-date { font-size: 0.75rem; color: #6b7280; }
+
+    .est-customer {
+      margin-bottom: 1.5rem;
+      padding: 1rem 1.25rem;
+      background: #f9fafb;
+      border-radius: 8px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .est-customer-title {
+      font-size: 0.65rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #9ca3af;
+      margin-bottom: 0.4rem;
+    }
+
+    .est-customer p { margin: 0.15rem 0; font-size: 0.88rem; color: #374151; }
+
+    .est-table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+
+    .est-table th {
+      text-align: left;
+      font-size: 0.65rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #9ca3af;
+      padding: 0.5rem 0;
+      border-bottom: 2px solid #e5e7eb;
+    }
+
+    .est-table th:last-child { text-align: right; }
+
+    .est-table td {
+      padding: 0.6rem 0;
+      border-bottom: 1px solid #f3f4f6;
+      font-size: 0.88rem;
+      color: #374151;
+    }
+
+    .est-table td:last-child { text-align: right; font-weight: 500; white-space: nowrap; }
+    .est-table .est-discount td { color: #059669; }
+    .est-table .est-addon td:first-child::before { content: '+  '; color: #9ca3af; }
+
+    .est-table .est-total-row td {
+      border-bottom: none;
+      border-top: 2px solid #e5e7eb;
+      padding-top: 0.85rem;
+      font-weight: 700;
+      font-size: 1rem;
+      color: #1a1a2e;
+    }
+
+    .est-final-box {
+      text-align: center;
+      padding: 1.25rem;
+      margin-bottom: 1.5rem;
+      background: #f0f7ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 8px;
+    }
+
+    .est-final-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #6b7280;
+      margin-bottom: 0.25rem;
+    }
+
+    .est-final-amount { font-size: 2rem; font-weight: 700; color: #1e40af; }
+
+    .est-disclaimer {
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid #e5e7eb;
+      font-size: 0.75rem;
+      color: #9ca3af;
+      line-height: 1.5;
+    }
+
+    .est-actions {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #e5e7eb;
+    }
+
+    .est-action-btn {
+      flex: 1;
+      padding: 0.7rem 1rem;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      min-height: 44px;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.3rem;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .est-action-btn svg {
+      width: 14px; height: 14px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .est-action-btn--print { background: #1e40af; color: white; border: none; }
+    .est-action-btn--print:hover { background: #2563eb; }
+    .est-action-btn--copy { background: none; border: 1px solid #d1d5db; color: #374151; }
+    .est-action-btn--copy:hover { border-color: #9ca3af; }
+    .est-action-btn--close { background: none; border: 1px solid #d1d5db; color: #6b7280; }
+    .est-action-btn--close:hover { border-color: #9ca3af; color: #374151; }
+
+    /* ===== Print Styles ===== */
+    @media print {
+      body { background: white !important; }
+      body::before { display: none !important; }
+      .container, .toast, .modal-overlay { display: none !important; }
+      .estimate-overlay {
+        display: block !important;
+        position: static !important;
+        background: white !important;
+      }
+      .est-actions { display: none !important; }
+      .estimate-page { padding: 0 !important; }
+    }
   </style>
 </head>
 <body>
@@ -1394,6 +1761,12 @@
           <div class="total-disclaimer" id="disclaimerOperator"></div>
         </div>
 
+        <!-- Final Price Override -->
+        <div class="final-price-wrap" id="finalPriceWrap">
+          <div class="final-price-label">Final Price (optional)</div>
+          <input class="final-price-input" id="finalPriceInput" type="text" inputmode="decimal" placeholder="$ Enter final price" oninput="handleFinalPriceInput()">
+        </div>
+
         <button class="cta" id="cta" disabled onclick="handleCta()">
           <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
           <span id="ctaLabel">Copy Quote Summary</span>
@@ -1403,6 +1776,17 @@
           <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
           Copy Share Link
         </button>
+
+        <div class="action-btns">
+          <button class="action-btn" id="saveQuoteBtn" disabled onclick="saveCurrentQuote()">
+            <svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+            Save Quote
+          </button>
+          <button class="action-btn" id="generateEstBtn" disabled onclick="openEstimate()">
+            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            Generate Estimate
+          </button>
+        </div>
 
         <!-- Lock button (only visible in operator view) -->
         <button class="lock-btn" id="lockBtn" onclick="lockOperator()" style="display:none;">
@@ -1420,6 +1804,24 @@
             Price-match guarantee
           </span>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Saved Quotes -->
+  <div class="saved-section" id="savedSection">
+    <div class="card">
+      <div class="card__heading">
+        <div class="card__heading-icon">
+          <svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+        </div>
+        Saved Quotes
+      </div>
+      <div class="sq-bar">
+        <input class="sq-search" id="sqSearch" type="text" placeholder="Search by name, phone, or address..." oninput="renderSavedQuotes()">
+      </div>
+      <div class="sq-list" id="sqList">
+        <div class="sq-empty">No saved quotes yet.</div>
       </div>
     </div>
   </div>
@@ -1466,6 +1868,11 @@
 
 <!-- Toast -->
 <div class="toast" id="toast">Copied to clipboard</div>
+
+<!-- Estimate Overlay -->
+<div class="estimate-overlay" id="estimateOverlay">
+  <div class="estimate-page" id="estimatePage"></div>
+</div>
 
 <script>
 // =====================================================================
@@ -1517,6 +1924,7 @@ let state = {
   detailsOpen: false,
   operatorUnlocked: false,
   conditionInfoOpen: false,
+  finalPrice: null,
 };
 
 // =====================================================================
@@ -1562,7 +1970,10 @@ const resetModal = document.getElementById('resetModal');
 const clipModal  = document.getElementById('clipboardModal');
 const clipText   = document.getElementById('clipboardText');
 const toastEl    = document.getElementById('toast');
-const shareBtn   = document.getElementById('shareBtn');
+const shareBtn       = document.getElementById('shareBtn');
+const finalPriceInput = document.getElementById('finalPriceInput');
+const saveQuoteBtn   = document.getElementById('saveQuoteBtn');
+const generateEstBtn = document.getElementById('generateEstBtn');
 
 // Customer info fields
 const custNameEl    = document.getElementById('custName');
@@ -1584,6 +1995,20 @@ const CONDITION_URL_KEYS = { normal: 'n', mildew: 'hm', oxidation: 'ox' };
 const URL_KEY_TO_CONDITION = Object.fromEntries(Object.entries(CONDITION_URL_KEYS).map(([k,v]) => [v,k]));
 
 function fmt(n) { return '$' + Math.round(n).toLocaleString(); }
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// =====================================================================
+// FINAL PRICE HANDLER
+// =====================================================================
+function handleFinalPriceInput() {
+  const raw = finalPriceInput.value.replace(/[^0-9.]/g, '');
+  state.finalPrice = raw ? parseFloat(raw) : null;
+  if (state.finalPrice !== null && isNaN(state.finalPrice)) state.finalPrice = null;
+  calculate();
+}
 
 // =====================================================================
 // TOAST
@@ -1716,6 +2141,10 @@ function confirmReset() {
   custPhoneEl.value = '';
   custAddressEl.value = '';
   custNotesEl.value = '';
+
+  // Clear final price
+  state.finalPrice = null;
+  finalPriceInput.value = '';
 
   if (state.viewMode === 'operator') {
     state.operatorUnlocked = false;
@@ -1928,6 +2357,8 @@ function calculate() {
     bundleNote.classList.remove('visible');
     ctaEl.disabled = true;
     shareBtn.disabled = true;
+    saveQuoteBtn.disabled = true;
+    generateEstBtn.disabled = true;
     detailsToggleEl.style.display = 'none';
     return;
   }
@@ -2052,14 +2483,33 @@ function calculate() {
   breakdownDetailsEl.innerHTML = detHtml;
 
   // ===== Totals =====
-  totalTypicalEl.textContent = fmt(totalMid);
-  totalTypicalEl.classList.add('live');
-  totalContextCustomerEl.textContent = 'Based on typical project scope';
+  const fp = state.finalPrice;
+
+  // Customer view: show final price if set, otherwise typical
+  if (fp && fp > 0) {
+    totalTypicalEl.textContent = fmt(fp);
+    totalTypicalEl.classList.add('live');
+    document.querySelector('#customerView .total-label').textContent = 'Final Quote';
+    totalContextCustomerEl.textContent = 'Typical estimate: ' + fmt(totalMid);
+    // Auto-show details toggle so range is still accessible
+    detailsToggleEl.style.display = allConfigured ? '' : 'none';
+  } else {
+    totalTypicalEl.textContent = fmt(totalMid);
+    totalTypicalEl.classList.add('live');
+    document.querySelector('#customerView .total-label').textContent = 'Typical Estimate';
+    totalContextCustomerEl.textContent = 'Based on typical project scope';
+    detailsToggleEl.style.display = allConfigured ? '' : 'none';
+  }
   disclaimerCustomerEl.textContent = DISCLAIMER;
 
+  // Operator view: always show range, add final price context
   totalRangeEl.textContent = fmt(totalLow) + ' \u2013 ' + fmt(totalHigh);
   totalRangeEl.classList.add('live');
-  totalContextOperatorEl.textContent = disc ? 'Typical project: ' + fmt(totalMid) : '';
+  if (fp && fp > 0) {
+    totalContextOperatorEl.textContent = 'Final price: ' + fmt(fp) + '  |  Typical: ' + fmt(totalMid);
+  } else {
+    totalContextOperatorEl.textContent = disc ? 'Typical project: ' + fmt(totalMid) : '';
+  }
   disclaimerOperatorEl.textContent = DISCLAIMER;
 
   // Bundle note
@@ -2070,12 +2520,11 @@ function calculate() {
     bundleNote.classList.remove('visible');
   }
 
-  // Details toggle visibility
-  detailsToggleEl.style.display = allConfigured ? '' : 'none';
-
-  // CTA + Share — disabled if any service missing a size
+  // CTA + Share + Save + Generate — disabled if any service missing a size
   ctaEl.disabled = !allConfigured;
   shareBtn.disabled = !allConfigured;
+  saveQuoteBtn.disabled = !allConfigured;
+  generateEstBtn.disabled = !allConfigured;
 
   // Store for copy
   window._lastQuote = { serviceRows, addonRows, disc, discountLow, discountHigh, totalLow, totalHigh, totalMid, condObj, addonsTotal };
@@ -2113,7 +2562,11 @@ function buildCustomerText(q) {
     lines.push('+ ' + r.label + ': ' + fmt(r.price));
   });
   lines.push('');
-  lines.push('Typical Estimate: ' + fmt(q.totalMid));
+  if (state.finalPrice && state.finalPrice > 0) {
+    lines.push('Final Quote: ' + fmt(state.finalPrice));
+  } else {
+    lines.push('Typical Estimate: ' + fmt(q.totalMid));
+  }
   lines.push('');
   lines.push(DISCLAIMER);
   return lines.join('\n');
@@ -2141,6 +2594,9 @@ function buildOperatorText(q) {
   lines.push('');
   lines.push('Estimated Range: ' + fmt(q.totalLow) + ' \u2013 ' + fmt(q.totalHigh));
   lines.push('Typical Project: ' + fmt(q.totalMid));
+  if (state.finalPrice && state.finalPrice > 0) {
+    lines.push('Final Price: ' + fmt(state.finalPrice));
+  }
   lines.push('');
   lines.push(DISCLAIMER);
   return lines.join('\n');
@@ -2225,6 +2681,9 @@ function encodeStateToQuery(st) {
   if (st.customer.address) params.set('a', st.customer.address);
   if (st.customer.notes)   params.set('note', st.customer.notes);
 
+  // Final price
+  if (state.finalPrice && state.finalPrice > 0) params.set('fp', state.finalPrice.toString());
+
   return params.toString();
 }
 
@@ -2272,6 +2731,10 @@ function parseQueryToState(search) {
   if (params.get('a'))    result.customer.address = params.get('a');
   if (params.get('note')) result.customer.notes   = params.get('note');
 
+  // Final price
+  const fp = params.get('fp');
+  if (fp) result.finalPrice = parseFloat(fp) || null;
+
   return result;
 }
 
@@ -2293,6 +2756,15 @@ function applyStateToUI(parsed) {
   if (parsed.customer.phone)   custPhoneEl.value   = parsed.customer.phone;
   if (parsed.customer.address) custAddressEl.value = parsed.customer.address;
   if (parsed.customer.notes)   custNotesEl.value   = parsed.customer.notes;
+
+  // Apply final price
+  if (parsed.finalPrice) {
+    state.finalPrice = parsed.finalPrice;
+    finalPriceInput.value = parsed.finalPrice.toString();
+  } else {
+    state.finalPrice = null;
+    finalPriceInput.value = '';
+  }
 
   // Always load as customer view with operator locked
   state.viewMode = 'customer';
@@ -2338,6 +2810,275 @@ function getCustomerBlock() {
 }
 
 // =====================================================================
+// SAVED QUOTES (localStorage)
+// =====================================================================
+const SQ_KEY = 'ncww_quotes';
+
+function getSavedQuotes() {
+  try { return JSON.parse(localStorage.getItem(SQ_KEY)) || []; }
+  catch(e) { return []; }
+}
+
+function saveSavedQuotes(quotes) {
+  localStorage.setItem(SQ_KEY, JSON.stringify(quotes));
+}
+
+function saveCurrentQuote() {
+  const q = window._lastQuote;
+  if (!q) return;
+  const quote = {
+    id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+    createdAt: new Date().toISOString(),
+    customer: {
+      name: custNameEl.value.trim(),
+      phone: custPhoneEl.value.trim(),
+      address: custAddressEl.value.trim(),
+      notes: custNotesEl.value.trim(),
+    },
+    services: { ...state.selectedServices },
+    extras: Array.from(state.activeAddons),
+    condition: state.condition,
+    totalLow: q.totalLow,
+    totalHigh: q.totalHigh,
+    totalMid: q.totalMid,
+    finalPrice: state.finalPrice,
+    status: 'Draft',
+  };
+  const quotes = getSavedQuotes();
+  quotes.unshift(quote);
+  saveSavedQuotes(quotes);
+  renderSavedQuotes();
+  showToast('Quote saved');
+}
+
+function loadQuote(id) {
+  const quotes = getSavedQuotes();
+  const q = quotes.find(item => item.id === id);
+  if (!q) return;
+
+  state.selectedServices = { ...q.services };
+  state.activeAddons = new Set(q.extras);
+  state.condition = q.condition;
+  state.finalPrice = q.finalPrice;
+
+  custNameEl.value = q.customer.name || '';
+  custPhoneEl.value = q.customer.phone || '';
+  custAddressEl.value = q.customer.address || '';
+  custNotesEl.value = q.customer.notes || '';
+  finalPriceInput.value = q.finalPrice ? q.finalPrice.toString() : '';
+
+  renderServiceGrid();
+  renderConfigs();
+  renderConditions();
+  renderAddons();
+  calculate();
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  showToast('Quote loaded');
+}
+
+function duplicateQuote(id) {
+  const quotes = getSavedQuotes();
+  const q = quotes.find(item => item.id === id);
+  if (!q) return;
+
+  const dup = {
+    ...q,
+    id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+    createdAt: new Date().toISOString(),
+    status: 'Draft',
+    customer: { ...q.customer },
+    services: { ...q.services },
+    extras: [...q.extras],
+  };
+  quotes.unshift(dup);
+  saveSavedQuotes(quotes);
+  renderSavedQuotes();
+  showToast('Quote duplicated');
+}
+
+function deleteQuote(id) {
+  const quotes = getSavedQuotes().filter(item => item.id !== id);
+  saveSavedQuotes(quotes);
+  renderSavedQuotes();
+  showToast('Quote deleted');
+}
+
+function renderSavedQuotes() {
+  const search = (document.getElementById('sqSearch').value || '').trim().toLowerCase();
+  let quotes = getSavedQuotes();
+
+  if (search) {
+    quotes = quotes.filter(q => {
+      const hay = [q.customer.name, q.customer.phone, q.customer.address].join(' ').toLowerCase();
+      return hay.includes(search);
+    });
+  }
+
+  const list = document.getElementById('sqList');
+
+  if (quotes.length === 0) {
+    list.innerHTML = '<div class="sq-empty">' + (search ? 'No matching quotes.' : 'No saved quotes yet.') + '</div>';
+    return;
+  }
+
+  list.innerHTML = quotes.map(q => {
+    const name = q.customer.name || 'Unnamed';
+    const date = new Date(q.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    const price = q.finalPrice ? fmt(q.finalPrice) : ('\u2248' + fmt(q.totalMid));
+
+    return '<div class="sq-item">' +
+      '<div class="sq-info">' +
+        '<div class="sq-name">' + escHtml(name) + '</div>' +
+        '<div class="sq-meta"><span>' + date + '</span><span class="sq-status">' + q.status + '</span></div>' +
+      '</div>' +
+      '<div class="sq-price">' + price + '</div>' +
+      '<div class="sq-actions">' +
+        '<button class="sq-action" onclick="loadQuote(\'' + q.id + '\')" title="Load"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>' +
+        '<button class="sq-action" onclick="duplicateQuote(\'' + q.id + '\')" title="Duplicate"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></button>' +
+        '<button class="sq-action sq-action--delete" onclick="deleteQuote(\'' + q.id + '\')" title="Delete"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg></button>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+// =====================================================================
+// ESTIMATE / PRINT VIEW
+// =====================================================================
+function generateEstimateNumber() {
+  const d = new Date();
+  const date = d.getFullYear().toString() +
+    (d.getMonth() + 1).toString().padStart(2, '0') +
+    d.getDate().toString().padStart(2, '0');
+  const time = d.getHours().toString().padStart(2, '0') +
+    d.getMinutes().toString().padStart(2, '0');
+  return date + '-' + time;
+}
+
+function openEstimate() {
+  const q = window._lastQuote;
+  if (!q) return;
+
+  const estNum = generateEstimateNumber();
+  const now = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+  const custName = custNameEl.value.trim();
+  const custPhone = custPhoneEl.value.trim();
+  const custAddress = custAddressEl.value.trim();
+  const custNotes = custNotesEl.value.trim();
+
+  let custHtml = '';
+  if (custName || custPhone || custAddress) {
+    custHtml = '<div class="est-customer"><div class="est-customer-title">Customer</div>';
+    if (custName) custHtml += '<p><strong>' + escHtml(custName) + '</strong></p>';
+    if (custPhone) custHtml += '<p>' + escHtml(custPhone) + '</p>';
+    if (custAddress) custHtml += '<p>' + escHtml(custAddress) + '</p>';
+    if (custNotes) custHtml += '<p style="color:#9ca3af;font-size:0.8rem;">' + escHtml(custNotes) + '</p>';
+    custHtml += '</div>';
+  }
+
+  // Build line items table
+  let rows = '';
+  q.serviceRows.forEach(r => {
+    rows += '<tr><td>' + escHtml(r.label) + '</td><td>' + fmt(r.low) + ' \u2013 ' + fmt(r.high) + '</td></tr>';
+  });
+
+  if (q.condObj && q.condObj.pct > 0) {
+    rows += '<tr><td colspan="2" style="color:#92400e;font-size:0.82rem;">Surface condition: ' + escHtml(q.condObj.label) + ' (+' + q.condObj.pct + '%) \u2014 included above</td></tr>';
+  }
+
+  if (q.disc) {
+    rows += '<tr class="est-discount"><td>Bundle pricing (' + q.disc.pct + '% off)</td><td>\u2212' + fmt(q.discountLow) + ' \u2013 ' + fmt(q.discountHigh) + '</td></tr>';
+  }
+
+  q.addonRows.forEach(r => {
+    rows += '<tr class="est-addon"><td>' + escHtml(r.label) + '</td><td>' + fmt(r.price) + '</td></tr>';
+  });
+
+  rows += '<tr class="est-total-row"><td>Estimated Range</td><td>' + fmt(q.totalLow) + ' \u2013 ' + fmt(q.totalHigh) + '</td></tr>';
+
+  // Final price or typical
+  const fp = state.finalPrice;
+  let priceBox = '';
+  if (fp && fp > 0) {
+    priceBox = '<div class="est-final-box"><div class="est-final-label">Final Quote</div><div class="est-final-amount">' + fmt(fp) + '</div></div>';
+  } else {
+    priceBox = '<div class="est-final-box"><div class="est-final-label">Typical Estimate</div><div class="est-final-amount">' + fmt(q.totalMid) + '</div></div>';
+  }
+
+  const page = document.getElementById('estimatePage');
+  page.innerHTML =
+    '<div class="est-header">' +
+      '<img src="./logo.png" alt="NC Wash Works" class="est-logo">' +
+      '<div class="est-brand"><div class="est-brand-name">NC Wash Works</div><div class="est-brand-sub">Professional Property Cleaning</div></div>' +
+      '<div class="est-number"><div class="est-number-label">Estimate #</div><div class="est-number-value">' + estNum + '</div><div class="est-date">' + now + '</div></div>' +
+    '</div>' +
+    custHtml +
+    '<table class="est-table"><thead><tr><th>Service</th><th>Amount</th></tr></thead><tbody>' + rows + '</tbody></table>' +
+    priceBox +
+    '<div class="est-disclaimer">' + DISCLAIMER + '<br>All estimates are valid for 30 days from the date above.</div>' +
+    '<div class="est-actions">' +
+      '<button class="est-action-btn est-action-btn--print" onclick="window.print()"><svg viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>Print / Save PDF</button>' +
+      '<button class="est-action-btn est-action-btn--copy" onclick="copyEstimateText()"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>Copy Text</button>' +
+      '<button class="est-action-btn est-action-btn--close" onclick="closeEstimate()">Close</button>' +
+    '</div>';
+
+  document.getElementById('estimateOverlay').classList.add('open');
+}
+
+function closeEstimate() {
+  document.getElementById('estimateOverlay').classList.remove('open');
+}
+
+function copyEstimateText() {
+  const q = window._lastQuote;
+  if (!q) return;
+
+  const estNum = generateEstimateNumber();
+  const now = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+  let lines = ['NC Wash Works', 'Professional Property Cleaning', '', 'Estimate #' + estNum, 'Date: ' + now, ''];
+
+  const custBlock = getCustomerBlock();
+  if (custBlock.length > 0) {
+    lines.push(...custBlock);
+    lines.push('');
+  }
+
+  lines.push('--- Services ---');
+  q.serviceRows.forEach(r => {
+    lines.push(r.label + ': ' + fmt(r.low) + ' \u2013 ' + fmt(r.high));
+  });
+
+  if (q.condObj && q.condObj.pct > 0) {
+    lines.push('Surface condition: ' + q.condObj.label + ' (+' + q.condObj.pct + '%)');
+  }
+
+  if (q.disc) {
+    lines.push('Bundle pricing: \u2212' + fmt(q.discountLow) + ' \u2013 ' + fmt(q.discountHigh) + ' (' + q.disc.pct + '% off)');
+  }
+
+  q.addonRows.forEach(r => {
+    lines.push('+ ' + r.label + ': ' + fmt(r.price));
+  });
+
+  lines.push('');
+  lines.push('Estimated Range: ' + fmt(q.totalLow) + ' \u2013 ' + fmt(q.totalHigh));
+
+  if (state.finalPrice && state.finalPrice > 0) {
+    lines.push('Final Quote: ' + fmt(state.finalPrice));
+  } else {
+    lines.push('Typical Estimate: ' + fmt(q.totalMid));
+  }
+
+  lines.push('');
+  lines.push(DISCLAIMER);
+  lines.push('Estimate valid for 30 days.');
+
+  copyToClipboard(lines.join('\n'));
+}
+
+// =====================================================================
 // MODAL KEYBOARD
 // =====================================================================
 document.addEventListener('keydown', e => {
@@ -2345,6 +3086,7 @@ document.addEventListener('keydown', e => {
     closePinModal();
     closeResetModal();
     closeClipboardModal();
+    closeEstimate();
   }
 });
 
@@ -2356,6 +3098,7 @@ renderServiceGrid();
 renderConditions();
 renderAddons();
 calculate();
+renderSavedQuotes();
 
 // Load from shared link if URL has params
 (function loadFromUrl() {
